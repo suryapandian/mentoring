@@ -22,17 +22,17 @@ const landingHtml = (sessionsConfig: typeof sessions) => `<!DOCTYPE html>
     }
 
     .hero {
-      background: linear-gradient(135deg, #0f0f1a 0%, #131328 40%, #0f2847 100%);
+      background: linear-gradient(135deg, #1a0f1f 0%, #2d1339 40%, #3d1555 100%);
       padding: 72px 24px 56px;
       text-align: center;
-      border-bottom: 1px solid rgba(255,255,255,0.04);
+      border-bottom: 1px solid rgba(236, 72, 153, 0.15);
     }
 
     .avatar {
       width: 110px;
       height: 110px;
       border-radius: 50%;
-      background: linear-gradient(135deg, #6366f1, #8b5cf6);
+      background: linear-gradient(135deg, #ec4899, #f472b6);
       display: inline-flex;
       align-items: center;
       justify-content: center;
@@ -41,6 +41,15 @@ const landingHtml = (sessionsConfig: typeof sessions) => `<!DOCTYPE html>
       color: white;
       letter-spacing: -1px;
       margin-bottom: 20px;
+      overflow: hidden;
+      flex-shrink: 0;
+    }
+
+    .avatar img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
     }
 
     .hero h1 {
@@ -159,7 +168,7 @@ const landingHtml = (sessionsConfig: typeof sessions) => `<!DOCTYPE html>
     }
 
     .job-header h3 a:hover {
-      color: #6366f1;
+      color: #ec4899;
     }
 
     .job-header .period {
@@ -170,7 +179,7 @@ const landingHtml = (sessionsConfig: typeof sessions) => `<!DOCTYPE html>
 
     .job-role {
       font-size: 13px;
-      color: #6366f1;
+      color: #ec4899;
       font-weight: 500;
       margin-bottom: 8px;
     }
@@ -228,17 +237,18 @@ const landingHtml = (sessionsConfig: typeof sessions) => `<!DOCTYPE html>
     .session-card {
       display: block;
       padding: 24px;
-      background: #18181b;
-      border: 1px solid #27272a;
+      background: rgba(236, 72, 153, 0.05);
+      border: 1px solid rgba(236, 72, 153, 0.2);
       border-radius: 12px;
       text-decoration: none;
       transition: all 0.2s;
     }
 
     .session-card:hover {
-      border-color: #6366f1;
+      border-color: #ec4899;
       transform: translateY(-2px);
-      box-shadow: 0 4px 12px rgba(99, 102, 241, 0.15);
+      box-shadow: 0 4px 12px rgba(236, 72, 153, 0.25);
+      background: rgba(236, 72, 153, 0.1);
     }
 
     .session-card h3 {
@@ -260,7 +270,7 @@ const landingHtml = (sessionsConfig: typeof sessions) => `<!DOCTYPE html>
       align-items: center;
       gap: 6px;
       font-size: 13px;
-      color: #6366f1;
+      color: #ec4899;
       font-weight: 500;
       margin-top: 12px;
     }
@@ -434,12 +444,12 @@ const landingHtml = (sessionsConfig: typeof sessions) => `<!DOCTYPE html>
 </html>`;
 
 // Voting app HTML (reused for all sessions)
-const votingHtml = (sessionId: string) => `<!DOCTYPE html>
+const votingHtml = (session: typeof sessions[0]) => `<!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Vote on Topics — ${sessionId}</title>
+  <title>Vote on Topics — ${session.id}</title>
   <style>
     * { margin: 0; padding: 0; box-sizing: border-box; }
 
@@ -451,8 +461,8 @@ const votingHtml = (sessionId: string) => `<!DOCTYPE html>
     }
 
     .hero {
-      background: linear-gradient(135deg, #1a1a2e 0%, #16213e 50%, #0f3460 100%);
-      border-bottom: 1px solid rgba(255,255,255,0.06);
+      background: linear-gradient(135deg, #2d1339 0%, #3d1555 50%, #4d1a6b 100%);
+      border-bottom: 1px solid rgba(236, 72, 153, 0.2);
       padding: 32px 24px;
     }
 
@@ -469,6 +479,31 @@ const votingHtml = (sessionId: string) => `<!DOCTYPE html>
       margin: 8px auto 0;
       font-size: 14px;
       color: #a1a1aa;
+    }
+
+    .hero-message {
+      max-width: 720px;
+      margin: 24px auto 0;
+      background: rgba(244, 114, 182, 0.1);
+      border: 1px solid rgba(236, 72, 153, 0.3);
+      border-radius: 8px;
+      padding: 16px;
+      color: #d4d4d8;
+      font-size: 14px;
+      line-height: 1.6;
+      white-space: pre-wrap;
+    }
+
+    .hero a {
+      color: #f472b6;
+      text-decoration: none;
+      font-weight: 500;
+      transition: color 0.2s;
+    }
+
+    .hero a:hover {
+      color: #ec4899;
+      text-decoration: underline;
     }
 
     .container {
@@ -530,7 +565,7 @@ const votingHtml = (sessionId: string) => `<!DOCTYPE html>
       transition: border-color 0.2s;
     }
 
-    .form-row input:focus { border-color: #6366f1; }
+    .form-row input:focus { border-color: #ec4899; }
     .form-row input::placeholder { color: #52525b; }
 
     .desc-row { margin-bottom: 14px; }
@@ -547,12 +582,12 @@ const votingHtml = (sessionId: string) => `<!DOCTYPE html>
       transition: border-color 0.2s;
     }
 
-    .desc-row input:focus { border-color: #6366f1; }
+    .desc-row input:focus { border-color: #ec4899; }
     .desc-row input::placeholder { color: #52525b; }
 
     .btn-suggest {
       padding: 10px 20px;
-      background: #6366f1;
+      background: #ec4899;
       color: white;
       border: none;
       border-radius: 8px;
@@ -604,14 +639,14 @@ const votingHtml = (sessionId: string) => `<!DOCTYPE html>
     }
 
     .vote-btn:hover {
-      background: #6366f1;
-      border-color: #6366f1;
+      background: #ec4899;
+      border-color: #ec4899;
       color: white;
     }
 
     .vote-btn.voted {
       background: #4f46e5;
-      border-color: #6366f1;
+      border-color: #ec4899;
       color: white;
       cursor: pointer;
     }
@@ -684,7 +719,9 @@ const votingHtml = (sessionId: string) => `<!DOCTYPE html>
 <body>
   <div class="hero">
     <h1>Vote on Topics</h1>
-    <p>${sessionId} — Click to vote anonymously</p>
+    <p>${session.name} — Click to vote anonymously</p>
+    ${session.institution ? `<p style="margin-top: 12px;"><a href="${session.institution}" target="_blank" rel="noopener">Visit ${session.institutionName}</a></p>` : ''}
+    ${session.welcome ? `<div class="hero-message">${session.welcome}</div>` : ''}
   </div>
 
   <div class="container">
@@ -711,7 +748,7 @@ const votingHtml = (sessionId: string) => `<!DOCTYPE html>
   <div class="toast" id="toast"></div>
 
   <script>
-    const sessionId = '${sessionId}';
+    const sessionId = '${session.id}';
     const voted = JSON.parse(localStorage.getItem('voted_' + sessionId) || '{}');
 
     function showToast(msg) {
@@ -899,7 +936,7 @@ export default {
 
     // Serve voting page for session
     if (url.pathname === `/${sessionId}` || url.pathname === `/${sessionId}/`) {
-      return new Response(votingHtml(sessionId), {
+      return new Response(votingHtml(session), {
         headers: { 'Content-Type': 'text/html; charset=utf-8' },
       });
     }
