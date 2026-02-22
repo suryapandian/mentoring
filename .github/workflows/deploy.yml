@@ -21,13 +21,7 @@ jobs:
       - name: Install dependencies
         run: npm install
 
-      - name: Deploy landing page (suryapandian)
-        run: npx wrangler deploy --config wrangler.landing.jsonc
-        env:
-          CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
-          CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
-
-      - name: Deploy voting app (march-ramco)
+      - name: Deploy to Cloudflare
         run: npx wrangler deploy
         env:
           CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
