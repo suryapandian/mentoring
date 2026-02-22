@@ -1,6 +1,6 @@
 {
   "$schema": "./node_modules/wrangler/config-schema.json",
-  "name": "suryapandian",
+  "name": "software",
   "main": "src/unified.ts",
   "compatibility_date": "2026-01-01",
   "d1_databases": [
