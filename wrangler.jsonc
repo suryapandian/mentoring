@@ -3,6 +3,9 @@
   "name": "suryapandian",
   "main": "src/unified.ts",
   "compatibility_date": "2026-01-01",
+  "site": {
+    "bucket": "assets"
+  },
   "d1_databases": [
     {
       "binding": "DB",

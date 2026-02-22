@@ -41,6 +41,13 @@ const landingHtml = (sessionsConfig: typeof sessions) => `<!DOCTYPE html>
       color: white;
       letter-spacing: -1px;
       margin-bottom: 20px;
+      overflow: hidden;
+    }
+
+    .avatar img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
     }
 
     .hero h1 {
@@ -150,6 +157,16 @@ const landingHtml = (sessionsConfig: typeof sessions) => `<!DOCTYPE html>
       font-size: 16px;
       font-weight: 600;
       color: #e4e4e7;
+    }
+
+    .job-header h3 a {
+      color: #e4e4e7;
+      text-decoration: none;
+      transition: color 0.2s;
+    }
+
+    .job-header h3 a:hover {
+      color: #6366f1;
     }
 
     .job-header .period {
@@ -272,7 +289,7 @@ const landingHtml = (sessionsConfig: typeof sessions) => `<!DOCTYPE html>
 </head>
 <body>
   <div class="hero">
-    <div class="avatar">SP</div>
+    <div class="avatar"><img src="/surya_web.jpg" alt="Surya Pandian" /></div>
     <h1>Surya Pandian</h1>
     <div class="subtitle">Senior Software Developer at TrueLayer, London</div>
     <p class="summary">
@@ -292,6 +309,22 @@ const landingHtml = (sessionsConfig: typeof sessions) => `<!DOCTYPE html>
       <a href="https://stackoverflow.com/users/4234288/surya" target="_blank" rel="noopener">
         <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M15.725 0l-1.72 1.277 6.39 8.588 1.72-1.277L15.725 0zm-3.94 3.418l-1.369 1.644 8.225 6.85 1.369-1.644-8.225-6.85zm-3.15 4.465l-.905 1.94 9.702 4.517.905-1.94-9.702-4.517zm-1.85 4.86l-.44 2.093 10.473 2.201.44-2.092-10.473-2.203zM1.89 15.47V24h19.19v-8.53h-2.133v6.397H4.021v-6.396H1.89zm4.265 2.133v2.13h10.66v-2.13H6.154z"/></svg>
         StackOverflow
+      </a>
+      <a href="https://suryapandian.wordpress.com/" target="_blank" rel="noopener">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M21.764 9.729c0-2.867-2.158-5.247-4.98-5.247-1.401 0-2.669.545-3.615 1.428-1.065-.868-2.400-1.428-3.888-1.428-3.583 0-6.483 2.997-6.483 6.7 0 .436.045.868.127 1.293H.674v7.25h5.81v-4.82h2.032v4.82h5.81v-4.82h2.032v4.82h5.81V10.46c.45-.24.855-.54 1.205-.892.816-.777 1.371-1.835 1.371-3.024zm-3.006 2.124c-.452.492-1.089.805-1.798.805-.685 0-1.314-.302-1.759-.78.313-.26.598-.548.84-.867.568.077 1.181.115 1.717.042z"/></svg>
+        Blog
+      </a>
+      <a href="https://www.goodreads.com/user/show/32996798-surya" target="_blank" rel="noopener">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M12 .5a11.5 11.5 0 1 0 0 23 11.5 11.5 0 0 0 0-23zM6.76 17.5h-.5V8.5h.5v9zm.77-11c-.4 0-.7-.3-.7-.7s.3-.7.7-.7.7.3.7.7-.3.7-.7.7zm8.47 11h-.5v-4.74c0-1.13-.4-1.9-1.41-1.9-.76 0-1.22.52-1.42 1.02-.07.17-.09.41-.09.66v4.96h-.5V8.5h.5v2.5c.4-.6 1.1-1.46 2.68-1.46 1.95 0 3.42 1.28 3.42 4.02v3.94z"/></svg>
+        Goodreads
+      </a>
+      <a href="https://www.instagram.com/csuryapandian" target="_blank" rel="noopener">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zM5.838 12a6.162 6.162 0 1 1 12.324 0 6.162 6.162 0 0 1-12.324 0zM12 16a4 4 0 1 1 0-8 4 4 0 0 1 0 8zm4.965-10.322a1.44 1.44 0 1 1 2.881.001 1.44 1.44 0 0 1-2.881-.001z"/></svg>
+        Instagram
+      </a>
+      <a href="https://drona-academy.netlify.app/karam_kodupom/" target="_blank" rel="noopener">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg>
+        Charity
       </a>
     </div>
   </div>
@@ -323,7 +356,7 @@ const landingHtml = (sessionsConfig: typeof sessions) => `<!DOCTYPE html>
 
       <div class="job">
         <div class="job-header">
-          <h3>TrueLayer</h3>
+          <h3><a href="https://truelayer.com/" target="_blank" rel="noopener">TrueLayer</a></h3>
           <span class="period">London · Jul 2021 — Present</span>
         </div>
         <div class="job-role">Senior Software Developer — Developer Productivity</div>
@@ -343,7 +376,7 @@ const landingHtml = (sessionsConfig: typeof sessions) => `<!DOCTYPE html>
 
       <div class="job">
         <div class="job-header">
-          <h3>Qube Cinema</h3>
+          <h3><a href="https://www.qubecinema.com/" target="_blank" rel="noopener">Qube Cinema</a></h3>
           <span class="period">Chennai · Apr 2018 — Jun 2021</span>
         </div>
         <div class="job-role">Senior Software Developer</div>
@@ -355,7 +388,7 @@ const landingHtml = (sessionsConfig: typeof sessions) => `<!DOCTYPE html>
 
       <div class="job">
         <div class="job-header">
-          <h3>Voonik</h3>
+          <h3><a href="https://shopup.org/" target="_blank" rel="noopener">Voonik</a></h3>
           <span class="period">Bangalore · Jan 2015 — Mar 2018</span>
         </div>
         <div class="job-role">Software Developer</div>
@@ -371,7 +404,7 @@ const landingHtml = (sessionsConfig: typeof sessions) => `<!DOCTYPE html>
       <h2>Talks</h2>
       <div class="video-wrap">
         <iframe
-          src="https://www.youtube.com/embed/tb4OrbrvveM?start=5686"
+          src="https://www.youtube.com/embed/tb4OrbrvveM?start=5720s"
           title="CloudNative Talk — Surya Pandian"
           allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
           allowfullscreen
