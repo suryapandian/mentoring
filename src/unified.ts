@@ -1,5 +1,4 @@
 import { sessions } from './sessions';
-import imageData from './surya_web.jpg';
 
 interface Env {
   DB: D1Database;
@@ -42,13 +41,6 @@ const landingHtml = (sessionsConfig: typeof sessions) => `<!DOCTYPE html>
       color: white;
       letter-spacing: -1px;
       margin-bottom: 20px;
-      overflow: hidden;
-    }
-
-    .avatar img {
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
     }
 
     .hero h1 {
@@ -290,7 +282,7 @@ const landingHtml = (sessionsConfig: typeof sessions) => `<!DOCTYPE html>
 </head>
 <body>
   <div class="hero">
-    <div class="avatar"><img src="/surya_web.jpg" alt="Surya Pandian" /></div>
+    <div class="avatar"><img src="https://raw.githubusercontent.com/suryapandian/mentoring/refs/heads/main/src/surya_web.jpg" alt="Surya Pandian" /></div>
     <h1>Surya Pandian</h1>
     <div class="subtitle">Senior Software Developer at TrueLayer, London</div>
     <p class="summary">
@@ -841,13 +833,6 @@ export default {
     const url = new URL(request.url);
     const pathParts = url.pathname.split('/').filter(Boolean);
     const sessionId = pathParts[0];
-
-    // Serve image
-    if (url.pathname === '/surya_web.jpg') {
-      return new Response(imageData as ArrayBuffer, {
-        headers: { 'Content-Type': 'image/jpeg', 'Cache-Control': 'public, max-age=86400' },
-      });
-    }
 
     // Root - landing page with all sessions
     if (url.pathname === '/' || url.pathname === '') {
