@@ -2,9 +2,10 @@
 
 A lightweight, anonymous voting platform for mentoring sessions. Participants can suggest topics and vote on what they want the mentor to cover.
 
-**Live**:
-- Landing page: https://suryapandian.himalayas.workers.dev
-- Voting app (March session): https://march-ramco.himalayas.workers.dev/march-ramco
+**Live**: https://suryapandian.himalayas.workers.dev
+- `/` — Landing page with bio, experience, skills, talks
+- `/march-ramco` — Voting app for March Ramco mentoring session
+- `/april-xyz` (example) — Voting app for any future session
 
 ---
 
@@ -21,23 +22,27 @@ A lightweight, anonymous voting platform for mentoring sessions. Participants ca
 
 ### How It Works
 
-1. **Landing Page** (`suryapandian.himalayas.workers.dev`)
-   - Static HTML page with your bio, experience, skills, embedded talks, and links to mentoring sessions
-   - Deployed as a separate Worker
+**Unified Single Worker** (`src/unified.ts`) handles everything:
 
-2. **Voting App** (`march-ramco.himalayas.workers.dev/march-ramco`)
-   - Fetches list of topics from D1 via `/march-ramco/api/topics`
-   - Displays topics sorted by votes (descending), then creation time
-   - Users can:
-     - **Vote/unvote** — Click button to upvote, click again to remove vote (toggle, never locked)
-     - **Suggest new topics** — POST to `/march-ramco/api/topics` with title + optional description
-   - Vote tracking via browser localStorage (no account needed)
-   - All data persists in D1 database
+1. **Landing Page** (`/`)
+   - Bio, resume, skills, experience, embedded talks
+   - Lists all active mentoring sessions from `src/sessions.ts`
+   - Links to each session's voting page
 
-3. **Database Schema**
+2. **Per-Session Voting App** (`/:sessionId`)
+   - Dynamic voting interface for each mentoring session
+   - Session ID determined from URL path
+   - Fetches topics from D1 filtered by session
+   - Features:
+     - **Vote/unvote** — Click to upvote, click again to remove (toggle, never locked)
+     - **Suggest topics** — POST with title + optional description
+     - Vote tracking via browser localStorage (no account needed)
+
+3. **Database Schema** (Multi-tenant via `session_id`)
    ```sql
    CREATE TABLE topics (
      id INTEGER PRIMARY KEY AUTOINCREMENT,
+     session_id TEXT NOT NULL,           -- Partitions data by session
      title TEXT NOT NULL,
      description TEXT DEFAULT '',
      votes INTEGER DEFAULT 0,
@@ -81,8 +86,10 @@ This will:
 - Auto-reload on file changes
 
 **Available routes locally:**
-- `http://localhost:8787/march-ramco` — Voting app
-- `http://localhost:8787/march-ramco/api/topics` — API
+- `http://localhost:8787/` — Landing page
+- `http://localhost:8787/march-ramco` — Voting app for March session
+- `http://localhost:8787/april-xyz` — Voting app for April session (if added)
+- `http://localhost:8787/:sessionId/api/topics` — API for any session
 
 ### Database
 
@@ -101,14 +108,27 @@ wrangler d1 migrations apply mentor-topics-db --local
 
 **Remote D1 (production):**
 ```bash
-# Query remote DB
+# Query all topics
 wrangler d1 execute mentor-topics-db --remote --command "SELECT * FROM topics;"
+
+# Query topics for a specific session
+wrangler d1 execute mentor-topics-db --remote --command "SELECT * FROM topics WHERE session_id = 'march-ramco';"
 
 # Delete a topic by id
 wrangler d1 execute mentor-topics-db --remote --command "DELETE FROM topics WHERE id = 4;"
 
-# Insert a topic
-wrangler d1 execute mentor-topics-db --remote --command "INSERT INTO topics (title, description) VALUES ('Topic', 'Description');"
+# Insert a topic for a session
+wrangler d1 execute mentor-topics-db --remote --command "
+  INSERT INTO topics (session_id, title, description) VALUES
+    ('march-ramco', 'New Topic', 'Description');
+"
+
+# Add multiple topics for a new session
+wrangler d1 execute mentor-topics-db --remote --command "
+  INSERT INTO topics (session_id, title, description) VALUES
+    ('april-xyz', 'Topic 1', 'Description 1'),
+    ('april-xyz', 'Topic 2', 'Description 2');
+"
 ```
 
 ---
@@ -118,13 +138,14 @@ wrangler d1 execute mentor-topics-db --remote --command "INSERT INTO topics (tit
 ```
 .
 ├── src/
-│   ├── index.ts              # March Ramco voting app (with D1 binding)
-│   └── landing/
-│       └── index.ts          # Landing page (no DB needed)
+│   ├── unified.ts            # Single worker (landing + all sessions)
+│   └── sessions.ts           # Session configuration
+├── .github/
+│   └── workflows/
+│       └── deploy.yml        # GitHub Actions auto-deploy
 ├── migrations/
 │   └── 0001_init.sql         # D1 schema + seed data
-├── wrangler.jsonc            # Config for march-ramco worker
-├── wrangler.landing.jsonc    # Config for suryapandian landing page
+├── wrangler.jsonc            # Main config (uses unified.ts)
 ├── package.json
 └── README.md
 ```
@@ -133,61 +154,85 @@ wrangler d1 execute mentor-topics-db --remote --command "INSERT INTO topics (tit
 
 ## Deployment
 
-### Deploy Both Workers
+### Deploy to Production
 
-**Landing page** (suryapandian):
 ```bash
-wrangler deploy --config wrangler.landing.jsonc
+# Push to main branch
+git add .
+git commit -m "Update mentoring sessions"
+git push origin main
 ```
 
-**Voting app** (march-ramco):
+GitHub Actions automatically deploys via `.github/workflows/deploy.yml`
+
+Or deploy manually:
 ```bash
-wrangler deploy  # Uses wrangler.jsonc (default)
+wrangler deploy  # Uses wrangler.jsonc (src/unified.ts)
 ```
 
-### Create a New Mentoring Session
+---
 
-1. **Create new D1 database:**
-   ```bash
-   wrangler d1 create my-session-db
-   ```
+## Adding a New Mentoring Session
 
-2. **Copy `wrangler.jsonc`** and update:
-   ```jsonc
-   {
-     "name": "my-session",
-     "d1_databases": [
-       {
-         "binding": "DB",
-         "database_name": "my-session-db",
-         "database_id": "YOUR_NEW_ID"
-       }
-     ]
-   }
-   ```
+**No new workers or databases needed** — just add to the session configuration!
 
-3. **Update route prefix in `src/index.ts`:**
-   - Replace all `/march-ramco/` with `/my-session/`
-   - Update redirect: `url.origin + '/my-session'`
+### 1. Add Session to Configuration
 
-4. **Deploy:**
-   ```bash
-   wrangler deploy
-   ```
+Edit `src/sessions.ts`:
 
-5. **Run migrations:**
-   ```bash
-   wrangler d1 execute my-session-db --remote --file ./migrations/0001_init.sql
-   ```
+```typescript
+export const sessions = [
+  {
+    id: 'march-ramco',
+    name: 'March — Ramco',
+    description: 'Engineering mentoring cohort — March 2026',
+  },
+  {
+    id: 'april-xyz',           // ← NEW
+    name: 'April — XYZ',       // ← NEW
+    description: 'Leadership & growth — April 2026',  // ← NEW
+  },
+  {
+    id: 'may-platform',        // ← Another example
+    name: 'May — Platform Team',
+    description: 'System design bootcamp — May 2026',
+  },
+];
+```
 
-6. **Add to landing page** (`src/landing/index.ts`):
-   ```html
-   <a class="session-card" href="https://my-session.himalayas.workers.dev/my-session">
-     <h3>My Session</h3>
-     <p>Vote on topics</p>
-     <span class="arrow">Vote &rarr;</span>
-   </a>
-   ```
+### 2. Deploy
+
+```bash
+git add src/sessions.ts
+git commit -m "Add April XYZ mentoring session"
+git push origin main
+```
+
+**That's it!** The new session is instantly live at:
+- Landing page: https://suryapandian.himalayas.workers.dev/ (updated with new session card)
+- Voting app: https://suryapandian.himalayas.workers.dev/april-xyz
+
+### 3. (Optional) Pre-populate Topics
+
+Add topics to the database for the new session:
+
+```bash
+wrangler d1 execute mentor-topics-db --remote --command "
+  INSERT INTO topics (session_id, title, description) VALUES
+    ('april-xyz', 'Leadership Skills', 'Management fundamentals'),
+    ('april-xyz', 'Team Dynamics', 'Building effective teams'),
+    ('april-xyz', 'Career Planning', 'Long-term growth strategy');
+"
+```
+
+Or edit `migrations/0001_init.sql` to pre-seed new sessions for future fresh deployments.
+
+### How It Works
+
+- **Single database, multi-tenant** — `session_id` column partitions data
+- **Automatic landing page updates** — `sessions.ts` drives the session cards
+- **No duplicate code** — One unified worker handles all sessions
+- **Instant deployment** — Git push triggers automatic deploy via GitHub Actions
 
 ---
 
@@ -243,6 +288,9 @@ wrangler deploy  # Uses wrangler.jsonc (default)
 
 ## Notes
 
-- Landing page is a separate Worker (`suryapandian`) — can be updated independently
-- Each mentoring session gets its own Worker and D1 database for isolation
-- All Workers deployed to `himalayas.workers.dev` subdomain
+- **Single unified worker** at `suryapandian.himalayas.workers.dev` handles all sessions and the landing page
+- **Multi-tenant database** — All sessions share one D1 database, partitioned by `session_id`
+- **Easy to extend** — Add new sessions by editing `src/sessions.ts` (no code changes needed)
+- **Auto-deploy** — Push to `main` branch triggers GitHub Actions deployment
+- **Fast iteration** — Deploy new sessions in seconds without infrastructure changes
+- **Scalable** — Cloudflare Workers handle unlimited sessions automatically
