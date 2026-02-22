@@ -4,7 +4,7 @@
 
 A lightweight, anonymous voting platform for mentoring sessions. Participants can suggest topics and vote on what they want the mentor to cover.
 
-**Live**: https://suryapandian.himalayas.workers.dev
+**Live**: https://suryapandian.suryapandian.workers.dev
 - `/` — Landing page with bio, experience, skills, talks
 - `/march-ramco` — Voting app for March Ramco mentoring session
 - `/april-xyz` (example) — Voting app for any future session
@@ -211,8 +211,8 @@ git push origin main
 ```
 
 **That's it!** The new session is instantly live at:
-- Landing page: https://suryapandian.himalayas.workers.dev/ (updated with new session card)
-- Voting app: https://suryapandian.himalayas.workers.dev/april-xyz
+- Landing page: https://suryapandian.suryapandian.workers.dev/ (updated with new session card)
+- Voting app: https://suryapandian.suryapandian.workers.dev/april-xyz
 
 ### 3. (Optional) Pre-populate Topics
 
@@ -290,7 +290,7 @@ Or edit `migrations/0001_init.sql` to pre-seed new sessions for future fresh dep
 
 ## Notes
 
-- **Single unified worker** at `suryapandian.himalayas.workers.dev` handles all sessions and the landing page
+- **Single unified worker** at `suryapandian.suryapandian.workers.dev` handles all sessions and the landing page
 - **Multi-tenant database** — All sessions share one D1 database, partitioned by `session_id`
 - **Easy to extend** — Add new sessions by editing `src/sessions.ts` (no code changes needed)
 - **Auto-deploy** — Push to `main` branch triggers GitHub Actions deployment
