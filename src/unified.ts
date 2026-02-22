@@ -1,4 +1,5 @@
 import { sessions } from './sessions';
+import imageData from './surya_web.jpg';
 
 interface Env {
   DB: D1Database;
@@ -840,6 +841,13 @@ export default {
     const url = new URL(request.url);
     const pathParts = url.pathname.split('/').filter(Boolean);
     const sessionId = pathParts[0];
+
+    // Serve image
+    if (url.pathname === '/surya_web.jpg') {
+      return new Response(imageData as ArrayBuffer, {
+        headers: { 'Content-Type': 'image/jpeg', 'Cache-Control': 'public, max-age=86400' },
+      });
+    }
 
     // Root - landing page with all sessions
     if (url.pathname === '/' || url.pathname === '') {
