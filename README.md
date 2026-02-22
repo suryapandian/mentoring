@@ -1,5 +1,7 @@
 # Mentoring Platform
 
+[![Deploy to Cloudflare](https://github.com/suryapandian/mentoring/workflows/Deploy%20to%20Cloudflare/badge.svg)](https://github.com/suryapandian/mentoring/actions)
+
 A lightweight, anonymous voting platform for mentoring sessions. Participants can suggest topics and vote on what they want the mentor to cover.
 
 **Live**: https://suryapandian.himalayas.workers.dev
