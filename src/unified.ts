@@ -506,6 +506,26 @@ const votingHtml = (session: typeof sessions[0]) => `<!DOCTYPE html>
       text-decoration: underline;
     }
 
+    .hero-nav {
+      max-width: 720px;
+      margin: 0 auto 16px;
+    }
+
+    .hero-nav a {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 13px;
+      font-weight: 500;
+      color: #a1a1aa;
+      text-decoration: none;
+      transition: color 0.2s;
+    }
+
+    .hero-nav a:hover {
+      color: #f472b6;
+    }
+
     .container {
       max-width: 720px;
       margin: 0 auto;
@@ -718,6 +738,9 @@ const votingHtml = (session: typeof sessions[0]) => `<!DOCTYPE html>
 </head>
 <body>
   <div class="hero">
+    <div class="hero-nav">
+      <a href="/">← Back to Home</a>
+    </div>
     <h1>Vote on Topics</h1>
     <p>${session.name} — Click to vote anonymously</p>
     ${session.institution ? `<p style="margin-top: 12px;"><a href="${session.institution}" target="_blank" rel="noopener">Visit ${session.institutionName}</a></p>` : ''}
